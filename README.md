@@ -1,12 +1,16 @@
-# Comp4050 ProjectStarter
+# Scribble
 
-This is the group repository for COMP4050.
+Processing a popular and free programming language, graphics library and IDE. It is designed to teach the fundamentals
+of computer programming in an easy to use and visual way.
 
-You can use this throughout your project. 
-However, if you prefer to use a different repo or a different service like GitLab or Bitbucket, document here how the lecturers can find it.
+Scribble is a tool for testing and auto-marking Processing sketches, written in Java.
 
-Please replace this README with an approiate README.
+### Usage
 
-Good luck
+##### Command Line
+`// TODO`
 
-Ansgar
+### License
+Scribble is licensed under the Mozilla Public License, v. 2.0. All source code in this repository is subject to the
+terms of the MPL. If a copy of the MPL was not distributed with this file, you can obtain one at 
+https://mozilla.org/MPL/2.0/.
