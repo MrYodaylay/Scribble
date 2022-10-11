@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class SketchBook {
 //implements iterable
 
-    private ArrayList<Sketch> sketchs = new ArrayList<Sketch>();
+    private final ArrayList<Sketch> sketchs = new ArrayList<>();
 
     //takes submissions path
     public SketchBook(String[] all){
