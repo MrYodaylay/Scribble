@@ -19,7 +19,7 @@ public class Builder {
         int compilationSuccess = compiler.run(null, null, null, testPath);
 
         if(compilationSuccess != 0){
-            System.out.printf("shit broke");
+            System.out.printf("shit broke in builder");
         }
     }
 }
