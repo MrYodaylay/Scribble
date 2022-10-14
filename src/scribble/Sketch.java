@@ -8,6 +8,7 @@ public class Sketch {
     File sketchDirectory;
 
     //Do we need this????
+    //TODO
     File sketchFile;
 
     File compiledDirectory;

@@ -55,8 +55,28 @@ public class Settings {
 
     }
 
-    public String getTest(){
+    public String getVerbosity() {
+        return verbosity;
+    }
 
+    public String getSubmissionFolder() {
+        return submissionFolder;
+    }
+
+    public String getSketchPath() {
+        return sketchPath;
+    }
+
+    public String getTestFilePath() {
         return testFilePath;
     }
+
+    public String getOutputStyle() {
+        return outputStyle;
+    }
+
+    public String getOutputPath() {
+        return outputPath;
+    }
+
 }
