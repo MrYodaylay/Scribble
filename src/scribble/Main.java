@@ -3,7 +3,7 @@ package scribble;
 public class Main {
     public static void main(String[] args) {
         // settings setup
-        Settings settings = new Settings(args);
+        ApplicationSettings settings = ApplicationSettings.fromArguments(args);
 
         System.out.println(settings.getVerbosity());
 
@@ -23,11 +23,11 @@ public class Main {
 
         // sketch loader
         SketchBook sb = new SketchBook();
-        if(settings.submissionFolder.equals("")){
-            sb.allSubmissions(settings.submissionFolder);
+        if(settings.getSubmissionDirectoryPath() != null){
+            sb.allSubmissions(settings.getSubmissionDirectoryPath());
             System.out.println("sub folder provided");
-        } else if (settings.sketchPath.equals("")) {
-            sb.individualSubmission(settings.sketchPath);
+        } else if (settings.getSingleSketchPath() != null) {
+            sb.individualSubmission(settings.getSingleSketchPath());
         } else {
             System.out.println("No submissions were stated. Terminating");
             return;

@@ -2,6 +2,7 @@ package scribble;
 
 import java.io.File;
 import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class SketchBook {
@@ -10,9 +11,9 @@ public class SketchBook {
     private final ArrayList<Sketch> sketchs = new ArrayList<>();
 
     //Looks at all the folders and puts in sketchs array
-    public void allSubmissions(String allSubs){
+    public void allSubmissions(Path allSubs){
         try{
-            File[] all = new File(allSubs).listFiles(File::isDirectory);
+            File[] all = allSubs.toFile().listFiles(File::isDirectory);
             for (File f: all) {
                 sketchs.add(new Sketch(f));
             }
@@ -23,10 +24,10 @@ public class SketchBook {
     }
 
     //Looks at the one folder provided and puts in sketches array
-    public void individualSubmission(String allSubs){
+    public void individualSubmission(Path allSubs){
         File indi;
         try{
-            indi = new File(allSubs);
+            indi = allSubs.toFile();
         } catch (InvalidPathException e){
             System.out.println("Invalid submission path provided");
             return;
