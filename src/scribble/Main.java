@@ -2,8 +2,13 @@ package scribble;
 
 public class Main {
     public static void main(String[] args) {
+
+        // Creates an instance of Logger
+        Logger logger = Logger.getInstance();
+
         // settings setup
         ApplicationSettings settings = ApplicationSettings.fromArguments(args);
+        assert settings != null;
 
         System.out.println(settings.getVerbosity());
 
