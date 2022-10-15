@@ -2,50 +2,46 @@ package scribble;
 
 public class Main {
     public static void main(String[] args) {
-
-
         // settings setup
-        ApplicationSettings settings = ApplicationSettings.fromArguments(args);
-        assert settings != null;
+        Settings settings = new Settings(args);
+
+        System.out.println(settings.getVerbosity());
+
+        Builder b = new Builder();
 
         // build test file
-        //if(settings.testFilePath.equals("")){
-        //    System.out.println("Test file not specified. Terminating");
-        //    return;
-        //}
+        /*if(settings.testFilePath.equals("")){
+            System.out.println("Test file not specified. Terminating");
+            return;
+        } else {
 
-    //    System.out.println(settings.getVerbosity());
+            b.buildTest(settings.getTestFilePath());
+        }
+         */
 
-        //Builder b = new Builder();
-        //b.buildTest(settings.getTestFilePath());
         //maybe change the .java to .class
 
         // sketch loader
-    /*
         SketchBook sb = new SketchBook();
         if(settings.submissionFolder.equals("")){
             sb.allSubmissions(settings.submissionFolder);
-        } else if (settings.singleSketchPath.equals("")) {
-            sb.individualSubmission(settings.singleSketchPath);
+            System.out.println("sub folder provided");
+        } else if (settings.sketchPath.equals("")) {
+            sb.individualSubmission(settings.sketchPath);
         } else {
-            System.out.println("No submission folder was stated. Terminating");
+            System.out.println("No submissions were stated. Terminating");
             return;
-        }*/
-
-
+        }
 
         // builder sketches in sketchbook
-        //b.build(sb);
+        b.build(sb);
 
         // runner
-        //Runner rn = new Runner();
+        Runner rn = new Runner();
 
         // takes sketchbook and test file
-    /*
         rn.runAll(sb);
         rn.run(sb,1);
-
-     */
 
     }
 }
