@@ -1,46 +1,43 @@
 package scribble;
 
-import java.io.File;
-import java.nio.file.InvalidPathException;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Stream;
 
-public class SketchBook {
-//implements iterable
+public class SketchBook implements Iterable<Sketch> {
 
-    private final ArrayList<Sketch> sketchs = new ArrayList<>();
+    private final List<Sketch> sketches;
 
-    //Looks at all the folders and puts in sketchs array
-    public void allSubmissions(Path allSubs){
-        try{
-            File[] all = allSubs.toFile().listFiles(File::isDirectory);
-            for (File f: all) {
-                sketchs.add(new Sketch(f));
-            }
-        } catch (InvalidPathException e){
-            System.out.println("Invalid submission path provided");
-            return;
+    public SketchBook(Path submissionsPath) {
+
+        // Filter the given directory only to subdirectories which contain valid sketches
+        List<Path> submissionSubdirectories = null;
+        try (Stream<Path> walk = Files.walk(submissionsPath, 5)) {
+            submissionSubdirectories = walk.filter(Sketch::isValidSketch).toList();
+        } catch (IOException e) {
+            Logger.warning("IO Exception occurred while walking %s".formatted(submissionsPath));
         }
-    }
 
-    //Looks at the one folder provided and puts in sketches array
-    public void individualSubmission(Path allSubs){
-        File indi;
-        try{
-            indi = allSubs.toFile();
-        } catch (InvalidPathException e){
-            System.out.println("Invalid submission path provided");
+        if (submissionSubdirectories == null || submissionSubdirectories.isEmpty()) {
+            sketches = new ArrayList<>(0);
             return;
         }
 
-        Sketch sk = new Sketch(indi);
-        sketchs.add(sk);
+        sketches = new ArrayList<>(submissionSubdirectories.size());
+        sketches.addAll(submissionSubdirectories.stream().map(Sketch::new).toList());
     }
 
-    //implements iterable
     public Sketch getSketch (int index){
-        if(index>=sketchs.size()) return null;
-        return sketchs.get(index);
+        if(index>= sketches.size()) return null;
+        return sketches.get(index);
     }
 
+    @Override
+    public Iterator<Sketch> iterator() {
+        return sketches.iterator();
+    }
 }

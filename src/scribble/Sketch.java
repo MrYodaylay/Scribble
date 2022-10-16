@@ -2,11 +2,43 @@ package scribble;
 
 
 import java.io.File;
+import java.nio.file.Path;
 
 public class Sketch {
-    String submissionName = "";
+
+
+    // STATIC VARIABLES & METHODS
+
+    /**
+     * Returns true if and only if the passed file is a valid Processing sketch. A valid processing Sketch is a
+     * directory containing one or more files with the .pde file extension. In all other cases, returns false. The
+     * comparison of file extensions is case-insensitive (i.e. ".PDE" == ".pde").
+     */
+    public static boolean isValidSketch(Path testDirectoryPath) {
+        // FUTURE Cache results of validity test to improve performance
+
+        File testDirectory = testDirectoryPath.toFile();
+
+        // Try to fail fast with quick sanity checks
+        if (!testDirectory.isDirectory()) {
+            return false;
+        }
+        if (!testDirectory.canRead()) {
+            return false;
+        }
+
+        // Find if there is a processing file in this directory
+        File[] pdeFiles = testDirectory.listFiles(p->p.toString().toLowerCase().endsWith(".pde"));
+        return pdeFiles != null && pdeFiles.length != 0;
+
+    }
+
+
+    // INSTANCE VARIABLES & METHODS
+
+    String submissionName;
     File sketchDirectory;
-    String sketchName = "";
+    String sketchName;
 
     //Do we need this????
     //TODO
@@ -16,11 +48,11 @@ public class Sketch {
     //status = failed to build, ...
     String status = "none";
 
-    public Sketch(File directoryName){
-        sketchDirectory = directoryName;
-        submissionName = directoryName.getName();
-        //lists the directories, which should only be one, then gets the name of that.
-        sketchName = directoryName.listFiles(File::isDirectory)[0].getName();
+
+    public Sketch(Path sketchPath) {
+        sketchDirectory = sketchPath.toFile();
+        submissionName = String.valueOf(sketchPath.getParent().getFileName());
+        sketchName = sketchDirectory.getName();
     }
 
     public String getSubmissionName() {
