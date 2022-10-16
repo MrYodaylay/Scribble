@@ -10,8 +10,6 @@ public class Main {
         ApplicationSettings settings = ApplicationSettings.fromArguments(args);
         assert settings != null;
 
-        System.out.println(settings.getVerbosity());
-
         Builder b = new Builder();
 
         // build test file
@@ -26,19 +24,23 @@ public class Main {
 
         //maybe change the .java to .class
 
-        // sketch loader
-        SketchBook sb = new SketchBook();
-        if(settings.getSubmissionDirectoryPath() != null){
-            sb.allSubmissions(settings.getSubmissionDirectoryPath());
-            System.out.println("Submission folder provided");
-        } else if (settings.getSingleSketchPath() != null) {
-            sb.individualSubmission(settings.getSingleSketchPath());
-            System.out.println("Sketch folder provided");
-        } else {
-            System.out.println("No submissions were stated. Terminating");
-            return;
+        // Create sketchbook
+        SketchBook sb = null;
+
+        if(settings.getSubmissionDirectoryPath() != null) {
+            Logger.debug("Main: Running in sketchbook mode.");
+            sb = new SketchBook(settings.getSubmissionDirectoryPath());
+        }
+        else if (settings.getSingleSketchPath() != null) {
+            Logger.debug("Main: Running in single sketch mode.");
+            sb = new SketchBook(settings.getSingleSketchPath());
+        }
+        else {
+            Logger.fatal("No sketch(es) provided. Must provide either --sketch or --sketchbook. Exiting.");
+            System.exit(-10);
         }
 
+        /*
         // builder sketches in sketchbook
         b.build(sb, settings.getOutputPath());
 
@@ -49,6 +51,6 @@ public class Main {
         rn.runAll(sb);
 
         //rn.run(sb,1);
-
+        */
     }
 }
