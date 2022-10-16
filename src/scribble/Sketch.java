@@ -4,8 +4,9 @@ package scribble;
 import java.io.File;
 
 public class Sketch {
-    String sketchName = "";
+    String submissionName = "";
     File sketchDirectory;
+    String sketchName = "";
 
     //Do we need this????
     //TODO
@@ -17,11 +18,13 @@ public class Sketch {
 
     public Sketch(File directoryName){
         sketchDirectory = directoryName;
-        sketchName = directoryName.getName();
+        submissionName = directoryName.getName();
+        //lists the directories, which should only be one, then gets the name of that.
+        sketchName = directoryName.listFiles(File::isDirectory)[0].getName();
     }
 
-    public String getSketchName() {
-        return sketchName;
+    public String getSubmissionName() {
+        return submissionName;
     }
 
     public File getSketchDirectory() {
@@ -47,4 +50,9 @@ public class Sketch {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public String getSketchName() {
+        return sketchName;
+    }
+
 }

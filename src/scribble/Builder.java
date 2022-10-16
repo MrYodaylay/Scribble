@@ -3,8 +3,10 @@ package scribble;
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 
 public class Builder {
@@ -12,23 +14,31 @@ public class Builder {
     //compiles a pde to java
     //returns class directory
 
-    public void build(SketchBook sb){
+    public void build(SketchBook sb, Path outPath){
         int i=0;
         String start = "processing-java";
-        String sketch = "--sketch=\'";
-        String output = "--output=\'";
+        String sketch = "--sketch=\"";
+        String output = "--output=\"";
         String build = "--force --build";
         while(sb.getSketch(i) != null){
             //command building
             Sketch sk = sb.getSketch(i);
-            sketch =sketch + sk.getSketchDirectory().toString();
-            output =output + sk.getSketchDirectory().toString();
+            sketch =sketch + sk.getSketchDirectory().toString() + "\\" + sk.getSketchName();
+            output =output + outPath.toString() + "\\" + sk.getSubmissionName()  + "\\" + sk.getSketchName();
 
-            sk.setStatus( compile(start + " " + sketch + "\' " + output + "\' " + build) );
+            File fl = new File(outPath.toString() + "\\" + sk.getSubmissionName()  + "\\" + sk.getSketchName());
+            sk.setCompiledDirectory(fl);
 
-            System.out.println(start + " " + sketch + "\' test**" + output + "\' " + build);
+            sk.setStatus( compile(start + " " + sketch + "\" " + output + "\" " + build) );
 
+            System.out.println(start + " " + sketch + "\" test**" + output + "\" " + build);
+            System.out.println("***********");
             i++;
+
+            start = "processing-java";
+            sketch = "--sketch=\"";
+            output = "--output=\"";
+            build = "--force --build";
         }
     }
 

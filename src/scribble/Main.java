@@ -39,7 +39,7 @@ public class Main {
         }
 
         // builder sketches in sketchbook
-        b.build(sb);
+        b.build(sb, settings.getOutputPath());
 
         // runner
         Runner rn = new Runner();

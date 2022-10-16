@@ -139,4 +139,6 @@ public class ApplicationSettings {
         return getAsType(testFilePathKey, Path.class);
     }
 
+    public Path getOutputPath() { return getAsType(outputPathKey, Path.class); }
+
 }
