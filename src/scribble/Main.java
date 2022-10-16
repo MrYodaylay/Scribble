@@ -30,9 +30,10 @@ public class Main {
         SketchBook sb = new SketchBook();
         if(settings.getSubmissionDirectoryPath() != null){
             sb.allSubmissions(settings.getSubmissionDirectoryPath());
-            System.out.println("sub folder provided");
+            System.out.println("Submission folder provided");
         } else if (settings.getSingleSketchPath() != null) {
             sb.individualSubmission(settings.getSingleSketchPath());
+            System.out.println("Sketch folder provided");
         } else {
             System.out.println("No submissions were stated. Terminating");
             return;

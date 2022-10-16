@@ -26,15 +26,16 @@ public class Builder {
             sketch =sketch + sk.getSketchDirectory().toString() + "\\" + sk.getSketchName();
             output =output + outPath.toString() + "\\" + sk.getSubmissionName()  + "\\" + sk.getSketchName();
 
-            File fl = new File(outPath.toString() + "\\" + sk.getSubmissionName()  + "\\" + sk.getSketchName());
+            File fl = new File(outPath + "\\" + sk.getSubmissionName()  + "\\" + sk.getSketchName());
             sk.setCompiledDirectory(fl);
 
             sk.setStatus( compile(start + " " + sketch + "\" " + output + "\" " + build) );
 
-            System.out.println(start + " " + sketch + "\" test**" + output + "\" " + build);
+            System.out.println(start + " " + sketch + "\" " + output + "\" " + build);
             System.out.println("***********");
             i++;
 
+            //reset command
             start = "processing-java";
             sketch = "--sketch=\"";
             output = "--output=\"";
@@ -48,12 +49,12 @@ public class Builder {
             Process compilation = rt.exec(command);
 
             BufferedReader in = new BufferedReader(new InputStreamReader(compilation.getInputStream()));
-            String s = null;
+            String s;
             while ((s = in.readLine()) != null) {
                 System.out.println(s);
             }
             BufferedReader er = new BufferedReader(new InputStreamReader(compilation.getErrorStream()));
-            String ser = null;
+            String ser;
             while ((ser = in.readLine()) != null) {
                 System.out.println(ser);
             }
