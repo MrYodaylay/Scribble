@@ -47,7 +47,8 @@ public class Main {
 
         // takes sketchbook and test file
         rn.runAll(sb);
-        rn.run(sb,1);
+
+        //rn.run(sb,1);
 
     }
 }

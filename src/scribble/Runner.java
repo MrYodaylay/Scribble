@@ -54,7 +54,7 @@ public class Runner {
             processingApp.noLoop();
             while (true){
                 processingApp.redraw();
-                System.out.println(processingApp.frameCount);
+                //System.out.println(processingApp.frameCount);
                 if(processingApp.frameCount > 100){
                     processingApp.exit();
                     break;
@@ -63,7 +63,6 @@ public class Runner {
         } catch(Exception e){
             System.out.println(e);
         }
-
     }
 
     public void run(SketchBook sb, int i){
