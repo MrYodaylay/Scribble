@@ -43,7 +43,7 @@ public class Main {
         // builder sketches in sketchbook
         b.buildAll(sb);
 
-        /*
+
         // runner
         Runner rn = new Runner();
 
@@ -51,6 +51,6 @@ public class Main {
         rn.runAll(sb);
 
         //rn.run(sb,1);
-        */
+
     }
 }

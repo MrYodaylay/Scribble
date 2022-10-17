@@ -8,11 +8,12 @@ import java.util.LinkedList;
 
 public class Runner {
     //TODO
-    //makes variables public
+    //run multiple sketches in serial
     //runs against provided test
     Class<?> applicationClass = null;
     LinkedList<Class<?>> classList = new LinkedList<>();
     CustomClassLoader sketchLoader = new CustomClassLoader();
+    PApplet processingApp;
 
     public void runAll(SketchBook sb){
         int i=0;
@@ -43,11 +44,12 @@ public class Runner {
             classList.clear();
             i++;
         }
+        processingApp.exit();
     }
 
     public void run(Sketch sk){
         try{
-            PApplet processingApp = (PApplet) applicationClass.getConstructor().newInstance();
+            processingApp = (PApplet) applicationClass.getConstructor().newInstance();
 
             System.out.println("Running sketch " + sk.submissionName);
             PApplet.runSketch(new String[]{ applicationClass.getName()}, processingApp);
@@ -56,7 +58,8 @@ public class Runner {
                 processingApp.redraw();
                 //System.out.println(processingApp.frameCount);
                 if(processingApp.frameCount > 100){
-                    processingApp.exit();
+                    //processingApp.exit();
+                    processingApp.stop();
                     break;
                 }
             }
