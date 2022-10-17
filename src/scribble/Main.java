@@ -40,10 +40,10 @@ public class Main {
             System.exit(-10);
         }
 
-        /*
         // builder sketches in sketchbook
-        b.build(sb, settings.getOutputPath());
+        b.buildAll(sb);
 
+        /*
         // runner
         Runner rn = new Runner();
 

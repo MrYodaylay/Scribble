@@ -44,7 +44,7 @@ public class Sketch {
     //TODO
     File sketchFile;
 
-    File compiledDirectory;
+    Path compiledDirectory;
     //status = failed to build, ...
     String status = "none";
 
@@ -67,11 +67,11 @@ public class Sketch {
         return sketchFile;
     }
 
-    public File getCompiledDirectory() {
+    public Path getCompiledDirectory() {
         return compiledDirectory;
     }
 
-    public void setCompiledDirectory(File compDirect){
+    public void setCompiledDirectory(Path compDirect){
         this.compiledDirectory = compDirect;
     }
 

@@ -21,7 +21,7 @@ public class Runner {
         while((sk = sb.getSketch(i)) != null){
             if(sk.getStatus() == "COMPILED"){
                 //load compiled sketch into custom class loader
-                classes = sk.compiledDirectory.listFiles();
+                classes = sk.compiledDirectory.toFile().listFiles();
 
                 try{
                     for(File classFile : classes){

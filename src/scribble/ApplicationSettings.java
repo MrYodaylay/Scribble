@@ -1,5 +1,7 @@
 package scribble;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
@@ -140,5 +142,20 @@ public class ApplicationSettings {
     }
 
     public Path getOutputPath() { return getAsType(outputPathKey, Path.class); }
+
+    public Path getTempPath() {
+        Path p = getAsType("tempDirectoryPath", Path.class);
+
+        if (p == null) {
+            try {
+                p = Files.createTempDirectory("scribble");
+                store.put("tempDirectoryPath", p);
+            } catch (IOException e) {
+                Logger.error("Could not create temporary directory.");
+            }
+        }
+
+        return p;
+    }
 
 }
