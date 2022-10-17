@@ -1,5 +1,12 @@
 package scribble;
 
+import java.io.IOException;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
+
 public class Main {
     public static void main(String[] args) {
 
@@ -51,6 +58,28 @@ public class Main {
         rn.runAll(sb);
 
         //rn.run(sb,1);
+
+        // Clean up temp directory on exit.
+        // Maybe move this outside of main?
+        try {
+            Files.walkFileTree(settings.getTempPath(), new SimpleFileVisitor<Path>() {
+                @Override
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                    Files.deleteIfExists(file);
+                    return FileVisitResult.CONTINUE;
+                }
+
+                @Override
+                public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                    Files.deleteIfExists(dir);
+                    return FileVisitResult.CONTINUE;
+                }
+            });
+        } catch (IOException ignored) {
+            Logger.warning("Failed to clean up temp directory.");
+        }
+
+        System.exit(-1);
 
     }
 }

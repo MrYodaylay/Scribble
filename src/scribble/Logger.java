@@ -46,8 +46,28 @@ public class Logger {
     }
 
     private void log(Logger.Level level, String message) {
-        System.out.printf("[%s] %s\n", level.toString(), message);
-        // TODO Respect application verbosity settings
+
+        switch (ApplicationSettings.getGlobalInstance().getVerbosity()) {
+            case SILENT -> {}
+            case QUIET -> {
+                if (level == Level.WARNING
+                        || level == Level.ERROR
+                        || level == Level.FATAL) {
+                    System.out.printf("[%s] %s\n", level, message);
+                }
+            }
+            case NORMAL -> {
+                if (level == Level.INFO
+                        || level == Level.WARNING
+                        || level == Level.ERROR
+                        || level == Level.FATAL) {
+                    System.out.printf("[%s] %s\n", level, message);
+                }
+            }
+            case VERBOSE -> {
+                System.out.printf("[%s] %s\n", level, message);
+            }
+        }
     }
 
 }

@@ -5,6 +5,7 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,15 +13,28 @@ import java.nio.file.Path;
 
 public class CustomClassLoader extends ClassLoader {
 
-    public Class<?> loadSketch(Path sketchPath) throws IOException {
-        String sketchPathStr = sketchPath.toString();
-        byte[] rawClassData = loadClassData(sketchPathStr);
-        byte[] publicClassData = widenClass(rawClassData);
-        return prepareClass(publicClassData);
+    public Class<?> loadSketch(Sketch sketch) throws IOException {
+
+        File sketchDirectoryFile = sketch.compiledDirectory.toFile();
+        File[] sketchClassFiles = sketchDirectoryFile.listFiles(f->f.getName().endsWith(".class"));
+
+        Class<?> mainClass = null;
+        assert sketchClassFiles != null;
+        for (File cf : sketchClassFiles) {
+            byte[] rawClassData = loadClassData(cf);
+            byte[] publicClassData = widenClass(rawClassData);
+            Class<?> unknownClass = prepareClass(publicClassData);
+
+            if (unknownClass.getName().equals(sketch.sketchName)) {
+                mainClass = unknownClass;
+            }
+        }
+
+        return mainClass;
+
     }
-    public Class<?> loadTestSpec(Path testSpecPath) throws IOException {
-        String sketchPathStr = testSpecPath.toString();
-        byte[] rawClassData = loadClassData(sketchPathStr);
+    public Class<?> loadPath(Path testSpecPath) throws IOException {
+        byte[] rawClassData = loadClassData(testSpecPath.toFile());
         return prepareClass(rawClassData);
     }
 
@@ -30,8 +44,8 @@ public class CustomClassLoader extends ClassLoader {
         return newClass;
     }
 
-    private byte[] loadClassData(String path) throws IOException {
-        try (InputStream fileReader = new FileInputStream(path)) {
+    private byte[] loadClassData(File file) throws IOException {
+        try (InputStream fileReader = new FileInputStream(file)) {
             return fileReader.readAllBytes();
         }
     }

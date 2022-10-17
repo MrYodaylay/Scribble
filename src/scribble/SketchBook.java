@@ -40,4 +40,8 @@ public class SketchBook implements Iterable<Sketch> {
     public Iterator<Sketch> iterator() {
         return sketches.iterator();
     }
+
+    public int size() {
+        return sketches.size();
+    }
 }
