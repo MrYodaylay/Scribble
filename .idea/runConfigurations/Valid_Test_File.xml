@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Valid Test File" type="Application" factoryName="Application" folderName="Test Loading">
+    <option name="MAIN_CLASS_NAME" value="scribble.Main" />
+    <module name="Project" />
+    <option name="PROGRAM_PARAMETERS" value="--testfile &quot;D:\University\2022 Session 2\COMP4050\Project\example\MarchPenguin\TestPlan\MarchPenguin\MarchPenguinTestPlan.java&quot; --sketchbook &quot;D:\University\2022 Session 2\COMP4050\Project\example\MarchPenguin\Submissions&quot;" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="CLI test - Invalid path" type="Application" factoryName="Application" folderName="CLI">
+    <option name="MAIN_CLASS_NAME" value="scribble.Main" />
+    <module name="Project" />
+    <option name="PROGRAM_PARAMETERS" value="-t &quot;../this/file/does/not/exist.java" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="scribble.cli.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
