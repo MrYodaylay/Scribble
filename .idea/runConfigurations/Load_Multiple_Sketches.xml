@@ -2,7 +2,8 @@
   <configuration default="false" name="Load Multiple Sketches" type="Application" factoryName="Application" folderName="Sketch Loading">
     <option name="MAIN_CLASS_NAME" value="scribble.Main" />
     <module name="Project" />
-    <option name="PROGRAM_PARAMETERS" value="--testfile &quot;D:\University\2022 Session 2\COMP4050\Project\example\MarchPenguin\TestPlan\MarchPenguin\MarchPenguinTestPlan.java&quot; --sketchbook &quot;D:\University\2022 Session 2\COMP4050\Project\example\MarchPenguin\Submissions&quot; --verbose" />
+    <option name="PROGRAM_PARAMETERS" value="--testfile &quot;$ProjectFileDir$\example\MarchPenguin\TestPlan\MarchPenguin\MarchPenguinTestPlan.java&quot; --sketchbook &quot;$ProjectFileDir$\example\MarchPenguin\Submissions&quot; --verbose" />
+    <option name="WORKING_DIRECTORY" value="$ModuleFileDir$" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>
