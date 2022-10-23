@@ -1,6 +1,7 @@
 package scribble;
 
 import processing.core.PApplet;
+import scribble.log.Logger;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -24,7 +25,7 @@ public class Runner {
     }
 
     public void run(Sketch sk) {
-        CustomClassLoader sketchLoader = new CustomClassLoader();
+        SketchClassLoader sketchLoader = new SketchClassLoader();
 
         Logger.info("Runner: Executing sketch %s/%s".formatted(sk.getSubmissionName(), sk.getSketchName()));
 

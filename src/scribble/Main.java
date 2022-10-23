@@ -1,23 +1,40 @@
 package scribble;
 
-import java.io.IOException;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
+import scribble.cli.ApplicationSettings;
+import scribble.log.Logger;
+import scribble.test.SpecificationBuilder;
+import scribble.test.TestPlan;
+
 import java.nio.file.Path;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.BasicFileAttributes;
+
+import static scribble.cli.WellKnownSettings.testSpecificationFilePath;
 
 public class Main {
     public static void main(String[] args) {
 
-        // Creates an instance of Logger
-        Logger logger = Logger.getInstance();
+        // Handle command line arguments
+        ApplicationSettings.fromArguments(args);
 
-        // settings setup
-        ApplicationSettings settings = ApplicationSettings.fromArguments(args);
-        assert settings != null;
+        // Load test specification file
+        SpecificationBuilder sb = new SpecificationBuilder();
+        Path testSpecJavaPath = ApplicationSettings.getAsType(testSpecificationFilePath, Path.class);
 
-        Builder b = new Builder();
+        if (testSpecJavaPath == null) {
+            Logger.fatal("Test specification path is either missing or not a valid path. Exiting.");
+            System.exit(-1);
+        }
+
+        Path testSpecClassPath = sb.compile(testSpecJavaPath);
+
+        if (testSpecClassPath == null) {
+            Logger.fatal("The test specification file could not be loaded. Exiting.");
+            System.exit(-1);
+        }
+
+        Class<TestPlan> tp = sb.load(testSpecClassPath);
+
+
+        //Builder b = new Builder();
 
         // build test file
         /*if(settings.testFilePath.equals("")){
@@ -32,15 +49,16 @@ public class Main {
         //maybe change the .java to .class
 
         // Create sketchbook
+        /*
         SketchBook sb = null;
 
-        if(settings.getSubmissionDirectoryPath() != null) {
+        if(ApplicationSettings.getAsType("submissionDirectoryPath", Path.class) != null) {
             Logger.debug("Main: Running in sketchbook mode.");
-            sb = new SketchBook(settings.getSubmissionDirectoryPath());
+            sb = new SketchBook(ApplicationSettings.getAsType("submissionDirectoryPath", Path.class));
         }
-        else if (settings.getSingleSketchPath() != null) {
+        else if (ApplicationSettings.getAsType("singleSketchPath", Path.class) != null) {
             Logger.debug("Main: Running in single sketch mode.");
-            sb = new SketchBook(settings.getSingleSketchPath());
+            sb = new SketchBook(ApplicationSettings.getAsType("singleSketchPath", Path.class));
         }
         else {
             Logger.fatal("No sketch(es) provided. Must provide either --sketch or --sketchbook. Exiting.");
@@ -62,7 +80,7 @@ public class Main {
         // Clean up temp directory on exit.
         // Maybe move this outside of main?
         try {
-            Files.walkFileTree(settings.getTempPath(), new SimpleFileVisitor<Path>() {
+            Files.walkFileTree(settings.tempPath(), new SimpleFileVisitor<Path>() {
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                     Files.deleteIfExists(file);
@@ -81,5 +99,6 @@ public class Main {
 
         System.exit(-1);
 
+         */
     }
 }

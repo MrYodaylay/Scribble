@@ -1,5 +1,8 @@
 package scribble;
 
+import scribble.cli.ApplicationSettings;
+import scribble.log.Logger;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -21,7 +24,7 @@ public class Builder {
     public void buildOne(Sketch s) {
 
         // Create a directory for this sketch in the global temp folder
-        Path tempPath = ApplicationSettings.getGlobalInstance().getTempPath();
+        Path tempPath = ApplicationSettings.tempPath();
         Path buildPath = tempPath.resolve("build").resolve(s.submissionName);
         boolean success = buildPath.toFile().mkdirs();
         s.setCompiledDirectory(buildPath);

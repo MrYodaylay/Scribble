@@ -9,9 +9,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Path;
 
-public class CustomClassLoader extends ClassLoader {
+public class SketchClassLoader extends ClassLoader {
 
     public Class<?> loadSketch(Sketch sketch) throws IOException {
 
@@ -32,10 +31,6 @@ public class CustomClassLoader extends ClassLoader {
 
         return mainClass;
 
-    }
-    public Class<?> loadPath(Path testSpecPath) throws IOException {
-        byte[] rawClassData = loadClassData(testSpecPath.toFile());
-        return prepareClass(rawClassData);
     }
 
     private Class<?> prepareClass(byte[] classBytes) {
