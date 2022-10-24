@@ -2,7 +2,7 @@
   <configuration default="false" name="Valid Test File" type="Application" factoryName="Application" folderName="Test Loading">
     <option name="MAIN_CLASS_NAME" value="scribble.Main" />
     <module name="Project" />
-    <option name="PROGRAM_PARAMETERS" value="--testfile &quot;$ProjectFileDir$\example\MarchPenguin\TestPlan\MarchPenguinTestPlan.java&quot; --sketchbook &quot;$ProjectFileDir$\example\MarchPenguin\Submissions&quot; --verbose" />
+    <option name="PROGRAM_PARAMETERS" value="--testfile &quot;$ProjectFileDir$\example\MarchPenguin\TestPlan\MarchPenguinTestPlan.java&quot; --sketch &quot;$ProjectFileDir$/example/MarchPenguin/Submissions/s0001_Alice_Penguin&quot; --verbose" />
     <option name="WORKING_DIRECTORY" value="$ModuleFileDir$" />
     <method v="2">
       <option name="Make" enabled="true" />

@@ -1,4 +1,4 @@
-package scribble;
+package scribble.sketch;
 
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.FieldVisitor;

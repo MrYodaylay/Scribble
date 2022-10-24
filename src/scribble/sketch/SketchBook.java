@@ -1,6 +1,7 @@
-package scribble;
+package scribble.sketch;
 
 import scribble.log.Logger;
+import scribble.sketch.Sketch;
 
 import java.io.IOException;
 import java.nio.file.Files;

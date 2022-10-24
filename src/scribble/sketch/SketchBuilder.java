@@ -1,4 +1,4 @@
-package scribble;
+package scribble.sketch;
 
 import scribble.cli.ApplicationSettings;
 import scribble.log.Logger;
@@ -10,7 +10,7 @@ import java.nio.file.Path;
 import java.util.StringJoiner;
 import java.util.concurrent.TimeUnit;
 
-public class Builder {
+public class SketchBuilder {
 
     //compiles a pde to java
     //returns class directory
@@ -25,7 +25,7 @@ public class Builder {
 
         // Create a directory for this sketch in the global temp folder
         Path tempPath = ApplicationSettings.tempPath();
-        Path buildPath = tempPath.resolve("build").resolve(s.submissionName);
+        Path buildPath = tempPath.resolve("build").resolve(s.getSubmissionName());
         boolean success = buildPath.toFile().mkdirs();
         s.setCompiledDirectory(buildPath);
 
@@ -33,8 +33,8 @@ public class Builder {
         // Construct command that is used to call processing-java and build the sketch
         StringJoiner command = new StringJoiner(" ");
         command.add("processing-java");
-        command.add("--sketch=\"%s\"".formatted(s.sketchDirectory));
-        command.add("--output=\"%s\"".formatted(s.compiledDirectory));
+        command.add("--sketch=\"%s\"".formatted(s.getSketchDirectory()));
+        command.add("--output=\"%s\"".formatted(s.getCompiledDirectory()));
         command.add("--force");
         command.add("--build");
 
@@ -54,8 +54,8 @@ public class Builder {
             error = new BufferedReader(new InputStreamReader(processing.getErrorStream()));
         }
         catch (IOException e) {
-            Logger.warning("Builder: Could not build sketch %s/%s: %s.".formatted(s.submissionName, s.sketchName, e.getMessage()));
-            s.status = "BUILD_ERROR";
+            Logger.warning("Builder: Could not build sketch %s/%s: %s.".formatted(s.getSubmissionName(), s.getSketchName(), e.getMessage()));
+            s.setStatus(State.BUILD_FAILED);
             return;
         }
 
@@ -84,7 +84,7 @@ public class Builder {
             ;
         }
 
-        s.status = "COMPILED";
+        s.setStatus(State.BUILD_PASSED);
 
     }
 }

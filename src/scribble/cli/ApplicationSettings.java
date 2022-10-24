@@ -92,6 +92,10 @@ public class ApplicationSettings {
         return result;
     }
 
+    public static boolean contains(String key) {
+        return store.containsKey(key);
+    }
+
     public static Path tempPath() {
         Path p = getAsType("tempDirectoryPath", Path.class);
 

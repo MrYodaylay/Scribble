@@ -1,4 +1,4 @@
-package scribble;
+package scribble.sketch;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
@@ -14,7 +14,7 @@ public class SketchClassLoader extends ClassLoader {
 
     public Class<?> loadSketch(Sketch sketch) throws IOException {
 
-        File sketchDirectoryFile = sketch.compiledDirectory.toFile();
+        File sketchDirectoryFile = sketch.getCompiledDirectory().toFile();
         File[] sketchClassFiles = sketchDirectoryFile.listFiles(f->f.getName().endsWith(".class"));
 
         Class<?> mainClass = null;
@@ -24,7 +24,7 @@ public class SketchClassLoader extends ClassLoader {
             byte[] publicClassData = widenClass(rawClassData);
             Class<?> unknownClass = prepareClass(publicClassData);
 
-            if (unknownClass.getName().equals(sketch.sketchName)) {
+            if (unknownClass.getName().equals(sketch.getSketchName())) {
                 mainClass = unknownClass;
             }
         }

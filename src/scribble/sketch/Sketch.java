@@ -1,4 +1,4 @@
-package scribble;
+package scribble.sketch;
 
 
 import java.io.File;
@@ -46,7 +46,7 @@ public class Sketch {
 
     Path compiledDirectory;
     //status = failed to build, ...
-    String status = "none";
+    State status = State.INIT;
 
 
     public Sketch(Path sketchPath) {
@@ -75,11 +75,11 @@ public class Sketch {
         this.compiledDirectory = compDirect;
     }
 
-    public String getStatus() {
+    public State getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(State status) {
         this.status = status;
     }
 
