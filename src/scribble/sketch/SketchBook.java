@@ -1,7 +1,7 @@
 package scribble.sketch;
 
+import scribble.api.Test;
 import scribble.log.Logger;
-import scribble.sketch.Sketch;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -46,5 +46,19 @@ public class SketchBook implements Iterable<Sketch> {
 
     public int size() {
         return sketches.size();
+    }
+
+    public void printResults() {
+        for (Sketch sk: sketches) {
+            if (sk.getStatus() == State.COMPLETE) {
+                List<Test> results = sk.getResults();
+                System.out.printf("For submission %s/%s%n", sk.getSubmissionName(), sk.getSketchName());
+                for (Test t: results) {
+                    if (t.isSupplier()) {
+                        System.out.printf(" | - %s = %s%n", t.name, t.getResult());
+                    }
+                }
+            }
+        }
     }
 }

@@ -2,6 +2,7 @@ package scribble.test;
 
 import processing.core.PApplet;
 import scribble.api.TestCandidate;
+import scribble.api.TestKey;
 import scribble.log.Logger;
 import scribble.sketch.Sketch;
 import scribble.sketch.SketchBook;
@@ -37,10 +38,6 @@ public class TestRunner {
 
     public void run(Sketch sk, Consumer<TestCandidate> candidateConsumer) {
 
-        // Turn the sketch into a TestCandidate
-        TestCandidate candidate = new TestCandidate();
-        candidateConsumer.accept(candidate);
-
         // Load the sketch
 
         Logger.info("Loading sketch %s/%s".formatted(sk.getSubmissionName(), sk.getSketchName()));
@@ -56,8 +53,6 @@ public class TestRunner {
             return;
         }
 
-        // Execute the sketch
-
         Logger.info("Executing sketch %s/%s".formatted(sk.getSubmissionName(), sk.getSketchName()));
 
         PApplet processingApp;
@@ -71,20 +66,36 @@ public class TestRunner {
             return;
         }
 
+        // Turn the sketch into a TestCandidate
+        TestCandidate candidate = new TestCandidate();
+        candidateConsumer.accept(candidate);
+        candidate.processingApp = processingApp;
+
+        // Run the sketch
         processingApp.noLoop();
         PApplet.runSketch(new String[]{sketchClass.getName()}, processingApp);
 
-        // Do afterSetup tasks
-
-        while (processingApp.frameCount < candidate.lifetime){
-            // Do beforeDraw tasks
-            processingApp.redraw();
-            // Do afterDraw tasks
+        if (!candidate.visible) {
+            processingApp.getSurface().setVisible(false);
         }
 
-        // Do beforeExit tasks
+        candidate.executeAll(new TestKey(0, TestKey.Event.AFTER_SETUP));
+
+        while (processingApp.frameCount < candidate.lifetime){
+            candidate.executeAll(new TestKey(processingApp.frameCount, TestKey.Event.BEFORE_DRAW));
+
+            processingApp.redraw();
+
+            candidate.executeAll(new TestKey(processingApp.frameCount, TestKey.Event.AFTER_DRAW));
+        }
+
+        candidate.executeAll(new TestKey(candidate.lifetime, TestKey.Event.BEFORE_EXIT));
 
         processingApp.getSurface().setVisible(false);
         processingApp.dispose();
+
+        // Return results to sketch object
+        sk.saveResults(candidate.results());
+        sk.setStatus(State.COMPLETE);
     }
 }

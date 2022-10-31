@@ -88,6 +88,8 @@ public class Main {
         Scribble scribble = new Scribble(testRunner, testPlan);
         scribble.run();
 
+        // TEMPORARY:
+        sketchbook.printResults();
 
         // Clean up temp directory before exit
         try {

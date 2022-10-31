@@ -1,8 +1,11 @@
 package scribble.sketch;
 
 
+import scribble.api.Test;
+
 import java.io.File;
 import java.nio.file.Path;
+import java.util.List;
 
 public class Sketch {
 
@@ -39,14 +42,10 @@ public class Sketch {
     String submissionName;
     File sketchDirectory;
     String sketchName;
-
-    //Do we need this????
-    //TODO
     File sketchFile;
-
     Path compiledDirectory;
-    //status = failed to build, ...
     State status = State.INIT;
+    List<Test> results;
 
 
     public Sketch(Path sketchPath) {
@@ -87,4 +86,11 @@ public class Sketch {
         return sketchName;
     }
 
+    public void saveResults(List<Test> results) {
+        this.results = results;
+    }
+
+    public List<Test> getResults() {
+        return this.results;
+    }
 }
