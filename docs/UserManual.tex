@@ -1,0 +1,80 @@
+%
+% Preamble
+%
+
+\documentclass[11pt, a4paper, onecolumn, portrait]{article}
+
+% Packages
+\usepackage{hyperref}
+\hypersetup{pdfborder = {0 0 0}}
+
+%
+% Main Content
+%
+
+\begin{document}
+
+\begin{center}
+\textbf{\Large{Scribble End User Guide}}~\\
+{31 October 2022, v1.0}~\\
+\end{center}
+
+
+\section {Introduction}
+
+\subparagraph{}
+Scribble is a command line tool for testing and auto-marking of \href{https://processing.org/}{\underline{Processing}} sketches. Processing is a simplified Java based language for learning and prototyping, created by Ben Fry, Casey Reas and volunteers. This project is intended to assist educators with grading Processing based assignments.
+
+\subparagraph{}
+Section 3 of this document details usage instructions for students and tutors who will be running tests, but will be provided with the test file. Section 4 describes the format of the test file for test writers and assignment writers. 
+
+\section{Prerequisites}
+
+\subparagraph{}
+Scribble is written in the Java processing language, and requires the Java Development Kit (JDK) version 17 or greater to be installed. Note tha the Java Runtime Environment (JRE) is not sufficient to run Scribble, as it requires a working Java compiler to be installed on the system. An open source distribution of the JDK is available for free at \href{https://adoptium.net/en-GB/temurin/releases}{\underline{adoptium.net}}.
+
+\subparagraph{}
+Scribble also depends on the processing-java tool and the Processing core library, which is included with the download of Processing, available for free at \href{https://processing.org/download}{\underline{processing.org}}.
+
+\section{Command Line Interface}
+
+\subparagraph{}
+Scribble is provided as a single jar file. This file should be placed on the local drive, and the directory should be opened in a terminal or command prompt. Scribble can be executed by running the following command:
+
+\subparagraph{}
+\quad\verb|java -jar Scribble.jar|
+
+\subparagraph{}
+The following command line arguments can be appended to the command:
+
+\begin{description}
+\item{\verb|--silent |}\quad No messages are printed to the terminal. This argument is mutually exclusive with \verb|--quiet| and \verb|--verbose|.
+\item{\verb|--quiet |}\quad Only warning, error or fatal errors are printed to the terminal. This argument is mutually exclusive with \verb|--silent| and \verb|--verbose|.
+\item{\verb|--verbose |}\quad All message types, including debug messages, are printed to the terminal. This argument is mutually exclusive with \verb|--silent| and \verb|--quiet|.
+\item{\verb|--sketch |\emph{path}}\quad Scribble runs in single sketch mode. This argument must be followed by a path to a valid sketch. A Processing sketch is a directory containing a Processing source (.pde) file. This argument is mutually exclusive with \verb|--sketchbook|, but one of either \verb|--sketch| or \verb|--sketchbook| is required.
+\item{\verb|--sketchbook |\emph{path}}\quad Scribble runs in multi sketch mode. This argument must be followed by a path to a directory containing valid sketches. A Processing sketch is a directory containing a Processing source (.pde) file. That is, this argument should be followed by a path to a directory of directories of Porcessing source files. This argument is mutually exclusive with \verb|--sketch |, but one of either \verb|--sketch| or \verb|--sketchbook| is required.
+\item{\verb|--testfile |\emph{path}}\quad The path of the test file to be executed. A test file is a Java source file (.java) that conforms to the template given in section 4 below. This argument is required.
+\item{\verb|--outfile |\emph{path}}\quad Specifies the path the the output file.
+\item{\verb|--format |\emph{path}}\quad Specifies the format of the output file. This argument is option, but if it is specified, \verb|--outfile| is required. Valid values for this argument are \emph{CSV}.
+\end{description}
+
+
+\section{Test File Format}
+
+A test specification file is a plaintext Java source file (.java). The contents of the file must be valid Java, but you do not need to compile the file ahead of time, as Scribble will perform this step for you. The file must contain a single class of the same name as the file itself, and this class must extend \verb|scribble.api.TestPlan|.  The class must implement the method \verb|run()| from \verb|scribble.api.TestPlan|. Inside the run method, the following methods are available to control Scribble and run tests:
+
+\begin{description}
+\item{\verb|Scribble()|}\quad Returns an instance of the Scribble API for you to use. Most methods used to define tests belong to the Scribble instance.
+\item{\verb|Scribble.forAll(Consumer<TestCandidate> c)|}\quad The passed consumer is executed against every sketch loaded by Scribble. In the case where the application is running in single sketch mode, the consumer is executed only once. In the case where the application is running in multi sketch mode, the consumer is executed for every sketch sequentially. It is recommended, for readability, to pass a lambda function to this method. 
+\item{\verb|TestCandidate.runFor(int n)|}\quad Defines the number of frames the sketch will be executed for. Once the frame counter reaches the given integer, the sketch is destroyed, and any remaining tests scheduled for later frames will never be executed.
+\item{\verb|TestCandidate.onAfterSetup(int n, BooleanSupplier f)|}\quad Executes the BooleanSupplier \emph{f} immediately after the sketch's \verb|setup()| method was run. The return value of the BooleanSupplier is recorded in the results for the submission.
+\item{\verb|TestCandidate.onBeforeDraw(int n, BooleanSupplier f)|}\quad Executes the BooleanSupplier \emph{f} once the sketch has reached frame number \emph{n}, but before sketch's \verb|draw()| method is called.  The return value of the BooleanSupplier is recorded in the results for the submission.
+\item{\verb|TestCandidate.onAfterDraw(int n, BooleanSupplier f)|}\quad Executes the BooleanSupplier \emph{f} once the sketch has reached frame number \emph{n}, immediately after the sketch's \verb|draw| method is called. The return value of the BooleanSupplier is recorded in the results for the submission.
+\item{\verb|TestCandidate.onBeforeExit(int n, BooleanSupplier f)|}\quad Executes the BooleanSupplier \emph{f} immediately before the sketch is destroyed.  The return value of the BooleanSupplier is recorded in the results for the submission.
+\item{\verb|TestCandidate.findField(String s)|}\quad Returns a \verb|TestField| object representing the matching field. Use this method to compare the values of variables in the sketch to expected values.
+\item{\verb|message(String s)|}\quad Prints the string \emph{s} to the standard output, if the application is not running in silent mode. 
+\end{description}
+
+See the /example directory in the project's root for an example of a test specification file. 
+
+\end{document}
